@@ -1,6 +1,30 @@
 #pragma once
 
 #include <QString>
+#include <QVector>
+
+enum TypeLexem
+{
+    Identifier,
+    IntegerConst,
+    RightSignL,
+    ServiceWord,
+    ErrorLexem
+};
+
+enum TypeSymbol
+{
+    Character,
+    Numeral,
+    RightSignS,
+    ErrorSymbol
+};
+
+struct Lexem
+{
+    QString word;
+    TypeLexem type;
+};
 
 class ErrorParser
 {
