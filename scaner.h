@@ -9,17 +9,24 @@ class Scaner
 public:
     Scaner();
     Scaner(const QString & nameFile);
+    Scaner(const QByteArray & byteArray);
     bool setNameFile(const QString & nameFile);
-    bool isFile();
-    void closeFile();
+    void setByteArray(const QByteArray & byteArray);
+    void setContent(const QString & string);
+    bool isSetProgram();
     void setServiceWords(QVector<QString> serviceWords);
-    void setRightSigns(QVector<char> rightSigns);
-    Lexem & next();
+    void setRightSigns(QVector<QString> rightSigns);
+    Lexem next();
+    QByteArray program();
+    QVector<QString> serviceWords();
+    QVector<QString> rightSigns();
 
 private:
     TypeSymbol defineSymbolClass(char sym);
+    bool isSeparator(char sym);
 
-    QFile file_;
+    int position_;
+    QByteArray program_;
     QVector<QString> serviceWords_;
-    QVector<char> rightSigns_;
+    QVector<QString> rightSigns_;
 };

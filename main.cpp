@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    // Формирование таблиц и списков.
+    // Формирование таблиц и массивов.
     // Массив служебных слов.
     QVector<QString> serviceWords;
     serviceWords.push_back("void");
@@ -21,19 +21,36 @@ int main(int argc, char *argv[])
     serviceWords.push_back("while");
 
     // Массив верных знаков.
-    QVector<char> rightSigns;
-    rightSigns.push_back('+');
-    rightSigns.push_back(',');
-    rightSigns.push_back(';');
-    rightSigns.push_back('-');
-    rightSigns.push_back('*');
-    rightSigns.push_back('{');
-    rightSigns.push_back('}');
-    rightSigns.push_back('(');
-    rightSigns.push_back(')');
+    QVector<QString> rightSigns;
+    rightSigns.push_back("+");
+    rightSigns.push_back(",");
+    rightSigns.push_back(";");
+    rightSigns.push_back("-");
+    rightSigns.push_back("*");
+    rightSigns.push_back("{");
+    rightSigns.push_back("}");
+    rightSigns.push_back("(");
+    rightSigns.push_back(")");
+    rightSigns.push_back("=");
+    rightSigns.push_back(">");
+    rightSigns.push_back("<");
+    rightSigns.push_back("==");
+    rightSigns.push_back(">=");
+    rightSigns.push_back("<=");
+    rightSigns.push_back("/");
+    rightSigns.push_back("!");
+    rightSigns.push_back("&&");
+    rightSigns.push_back("||");
+    rightSigns.push_back("!=");
+    rightSigns.push_back("&");
+    rightSigns.push_back("|");
 
-    Scaner scaner("main.txt");
-    if (scaner.isFile()) {
+
+
+
+    QString fileName = "main.txt";
+    Scaner scaner(fileName);
+    if (scaner.isSetProgram()) {
         qDebug() << "The file is opened!";
     } else {
         qDebug() << "The file is not opened!";
@@ -41,6 +58,28 @@ int main(int argc, char *argv[])
     scaner.setRightSigns(rightSigns);
     scaner.setServiceWords(serviceWords);
 
+    Lexem lexem;
+    lexem = scaner.next();
+    while (lexem.word != "") {
+        qDebug() << lexem.word;
+        if (lexem.type == Identifier) {
+            qDebug() << "Identifier";
+        }
+        if (lexem.type == IntegerConst) {
+            qDebug() << "IntegerConst";
+        }
+        if (lexem.type == RightSignL) {
+            qDebug() << "RightSignL";
+        }
+        if (lexem.type == ServiceWord) {
+            qDebug() << "ServiceWord";
+        }
+        if (lexem.type == ErrorLexem) {
+            qDebug() << "ErrorLexem";
+        }
+        qDebug() << "\n";
+        lexem = scaner.next();
+    }
 
     return a.exec();
 }
