@@ -10,8 +10,10 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    scaner.cpp
+    scaner.cpp \
+    lexicalanaliz.cpp
 
 HEADERS += \
     scaner.h \
-    global.h
+    global.h \
+    lexicalanaliz.h
