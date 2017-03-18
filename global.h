@@ -2,6 +2,8 @@
 
 #include <QString>
 #include <QVector>
+// TODO: ChernyshovSV - Убрать после завершения отладки.
+#include <QDebug>
 
 enum TypeLexem
 {

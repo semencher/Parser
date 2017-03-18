@@ -107,7 +107,7 @@ Lexem Scaner::next()
             typeSymbol = defineSymbolClass(sym);
             if (typeSymbol == Numeral || typeSymbol == Character) {
                 lexem.word = lexem.word + sym;
-                if (position_ >= sym) {
+                if (position_ >= size) {
                     if (serviceWords_.contains(lexem.word)) {
                         lexem.type = ServiceWord;
                     }

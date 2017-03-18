@@ -100,7 +100,7 @@ bool LexicalAnaliz::setNameFile(const QString & nameFile)
     return scaner_.setNameFile(nameFile);
 }
 
-void LexicalAnaliz::setByteArray(const QByteArray & byteArray) :
+void LexicalAnaliz::setByteArray(const QByteArray & byteArray)
 {
     scaner_.setByteArray(byteArray);
 }
@@ -124,7 +124,7 @@ bool LexicalAnaliz::run()
 {
     bool defineInput = false;
     Lexem lexem;
-    lexem = scaner.next();
+    lexem = scaner_.next();
     while (lexem.word != "") {
         if (lexem.type == Identifier) {
             if (defineInput) {
@@ -149,8 +149,7 @@ bool LexicalAnaliz::run()
                 if (identifiers_.contains(lexem.word)) {
                     Descriptor descriptor;
                     descriptor.typeLexem = Identifier;
-                    identifiers_.push_back(lexem.word);
-                    descriptor.address = identifiers_.size() - 1;
+                    descriptor.address = identifiers_.indexOf(lexem.word);
                     convolution_.push_back(descriptor);
                 } else {
                     qDebug() << "The variable " << lexem.word << " is not defined!";
@@ -181,7 +180,7 @@ bool LexicalAnaliz::run()
             convolution_.push_back(descriptor);
         }
         if (lexem.type == ServiceWord) {
-            if (lexem.type == "int")
+            if (lexem.word == "int")
                 defineInput = true;
             Descriptor descriptor;
             descriptor.typeLexem = ServiceWord;
@@ -199,35 +198,38 @@ bool LexicalAnaliz::run()
             scaner_.setContent(QString());
             return false;
         }
-        lexem = scaner.next();
+        lexem = scaner_.next();
     }
     return true;
 }
 
 void LexicalAnaliz::showConvolution()
 {
+    qDebug() << "Convolution:";
     auto iter = convolution_.begin();
     auto end = convolution_.end();
     Descriptor descriptor;
-    descriptor = *iter;
     while (iter != end) {
-        qDebug() << descriptor.typeLexem;
-        qDebug() << descriptor.address;
-        if (lexem.type == Identifier) {
-            qDebug() << identifiers_[descriptor.address];
+        descriptor = *iter;
+        if (descriptor.typeLexem == Identifier) {
+            qDebug() << descriptor.address << "          " << "Identifier"
+                     << "          " << identifiers_[descriptor.address];
         }
-        if (lexem.type == IntegerConst) {
-            qDebug() << constsTable_[descriptor.address];
+        if (descriptor.typeLexem == IntegerConst) {
+            qDebug() << descriptor.address << "          " << "IntegerConst"
+                     << "          " << constsTable_[descriptor.address];
         }
-        if (lexem.type == RightSignL) {
-            qDebug() << rightSigns_[descriptor.address];
+        if (descriptor.typeLexem == RightSignL) {
+            qDebug() << descriptor.address << "          " << "RightSignL"
+                     << "          " << rightSigns_[descriptor.address];
         }
-        if (lexem.type == ServiceWord) {
-            qDebug() << serviceWords_[descriptor.address];
+        if (descriptor.typeLexem == ServiceWord) {
+            qDebug() << descriptor.address << "          " << "ServiceWord"
+                     << "          " << serviceWords_[descriptor.address];
         }
-        qDebug() << "\n";
         ++iter;
     }
+    qDebug() << "\n";
 }
 
 void LexicalAnaliz::showIdentifiers()
@@ -237,7 +239,7 @@ void LexicalAnaliz::showIdentifiers()
     for (int i = 0; i < size; ++i) {
         qDebug() << i << "          " << identifiers_[i];
     }
-    qDebug << "";
+    qDebug() << "";
 }
 
 void LexicalAnaliz::showConstsTable()
@@ -247,5 +249,5 @@ void LexicalAnaliz::showConstsTable()
     for (int i = 0; i < size; ++i) {
         qDebug() << i << "          " << constsTable_[i];
     }
-    qDebug << "";
+    qDebug() << "";
 }

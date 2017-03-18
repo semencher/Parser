@@ -1,6 +1,4 @@
 #include <QCoreApplication>
-// TODO: ChernyshovSV - Убрать после завершения отладки.
-#include <QDebug>
 
 #include "lexicalanaliz.h"
 
