@@ -26,6 +26,12 @@ struct Lexem
     TypeLexem type;
 };
 
+struct Descriptor
+{
+    int address;
+    TypeLexem typeLexem;
+};
+
 class ErrorParser
 {
     QString message_;

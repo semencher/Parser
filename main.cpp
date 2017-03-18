@@ -1,10 +1,8 @@
-
 #include <QCoreApplication>
 // TODO: ChernyshovSV - Убрать после завершения отладки.
 #include <QDebug>
 
-// TODO: ChernyshovSV - Потом убрать подключение, будет в другом месте.
-#include "scaner.h"
+#include "lexicalanaliz.h"
 
 int main(int argc, char *argv[])
 {
@@ -45,41 +43,24 @@ int main(int argc, char *argv[])
     rightSigns.push_back("&");
     rightSigns.push_back("|");
 
-
-
-
     QString fileName = "main.txt";
-    Scaner scaner(fileName);
-    if (scaner.isSetProgram()) {
+    LexicalAnaliz lexicalAnaliz(fileName);
+    if (lexicalAnaliz.isSetProgram()) {
         qDebug() << "The file is opened!";
     } else {
         qDebug() << "The file is not opened!";
     }
-    scaner.setRightSigns(rightSigns);
-    scaner.setServiceWords(serviceWords);
+    lexicalAnaliz.setRightSigns(rightSigns);
+    lexicalAnaliz.setServiceWords(serviceWords);
 
-    Lexem lexem;
-    lexem = scaner.next();
-    while (lexem.word != "") {
-        qDebug() << lexem.word;
-        if (lexem.type == Identifier) {
-            qDebug() << "Identifier";
-        }
-        if (lexem.type == IntegerConst) {
-            qDebug() << "IntegerConst";
-        }
-        if (lexem.type == RightSignL) {
-            qDebug() << "RightSignL";
-        }
-        if (lexem.type == ServiceWord) {
-            qDebug() << "ServiceWord";
-        }
-        if (lexem.type == ErrorLexem) {
-            qDebug() << "ErrorLexem";
-        }
-        qDebug() << "\n";
-        lexem = scaner.next();
+    if (!lexicalAnaliz.run()) {
+        qDebug() << "Lexical analiz stoped!";
+        return 0;
     }
+
+    lexicalAnaliz.showConstsTable();
+    lexicalAnaliz.showIdentifiers();
+    lexicalAnaliz.showConvolution();
 
     return a.exec();
 }
