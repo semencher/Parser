@@ -139,11 +139,11 @@ bool LexicalAnaliz::run()
                     scaner_.setContent(QString());
                     return false;
                 } else {
-                    Descriptor descriptor;
-                    descriptor.typeLexem = Identifier;
+                    //Descriptor descriptor;
+                    //descriptor.typeLexem = Identifier;
                     identifiers_.push_back(lexem.word);
-                    descriptor.address = identifiers_.size() - 1;
-                    convolution_.push_back(descriptor);
+                    //descriptor.address = identifiers_.size() - 1;
+                    //convolution_.push_back(descriptor);
                 }
             } else {
                 if (identifiers_.contains(lexem.word)) {
@@ -172,20 +172,24 @@ bool LexicalAnaliz::run()
             convolution_.push_back(descriptor);
         }
         if (lexem.type == RightSignL) {
+            if (!defineInput) {
+                Descriptor descriptor;
+                descriptor.typeLexem = RightSignL;
+                descriptor.address = rightSigns_.indexOf(lexem.word);
+                convolution_.push_back(descriptor);
+            }
             if (lexem.word == ";")
                 defineInput = false;
-            Descriptor descriptor;
-            descriptor.typeLexem = RightSignL;
-            descriptor.address = rightSigns_.indexOf(lexem.word);
-            convolution_.push_back(descriptor);
         }
         if (lexem.type == ServiceWord) {
             if (lexem.word == "int")
                 defineInput = true;
-            Descriptor descriptor;
-            descriptor.typeLexem = ServiceWord;
-            descriptor.address = serviceWords_.indexOf(lexem.word);
-            convolution_.push_back(descriptor);
+            if (!defineInput) {
+                Descriptor descriptor;
+                descriptor.typeLexem = ServiceWord;
+                descriptor.address = serviceWords_.indexOf(lexem.word);
+                convolution_.push_back(descriptor);
+            }
         }
         if (lexem.type == ErrorLexem) {
             qDebug() << "Error of lexical analiz: " << lexem.word;
