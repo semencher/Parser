@@ -2,6 +2,7 @@
 
 #include <QString>
 #include <QVector>
+#include <QPair>
 // TODO: ChernyshovSV - Убрать после завершения отладки.
 #include <QDebug>
 
@@ -32,6 +33,30 @@ struct Descriptor
 {
     int address;
     TypeLexem typeLexem;
+};
+
+struct Grammar {
+    QMap<QString, QPair<int, int>> infAlt;
+    QVector<QString> lPart;
+    QVector<QVector<QString>> rPart;
+};
+
+enum ParserState {
+    NORMAL_WORK,
+    RETURN_STATE,
+    DONE
+};
+
+struct ElementL1 {
+    bool isTerminal;
+    QString sym;
+    int currentAlt;
+    int countAlt;
+};
+
+struct ElementL2 {
+    bool isTerminal;
+    QString sym;
 };
 
 class ErrorParser
