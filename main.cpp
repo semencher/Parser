@@ -185,70 +185,76 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    // Формирование таблиц и массивов.
-    // Массив служебных слов.
-    QVector<QString> serviceWords;
-    serviceWords.push_back("void");
-    serviceWords.push_back("main");
-    serviceWords.push_back("int");
-    serviceWords.push_back("if");
-    serviceWords.push_back("else");
-    serviceWords.push_back("while");
+    try {
+        // Формирование таблиц и массивов.
+        // Массив служебных слов.
+        QVector<QString> serviceWords;
+        serviceWords.push_back("void");
+        serviceWords.push_back("main");
+        serviceWords.push_back("int");
+        serviceWords.push_back("if");
+        serviceWords.push_back("else");
+        serviceWords.push_back("while");
 
-    // Массив верных знаков.
-    QVector<QString> rightSigns;
-    rightSigns.push_back("+");
-    rightSigns.push_back(",");
-    rightSigns.push_back(";");
-    rightSigns.push_back("-");
-    rightSigns.push_back("*");
-    rightSigns.push_back("{");
-    rightSigns.push_back("}");
-    rightSigns.push_back("(");
-    rightSigns.push_back(")");
-    rightSigns.push_back("=");
-    rightSigns.push_back(">");
-    rightSigns.push_back("<");
-    rightSigns.push_back("==");
-    rightSigns.push_back(">=");
-    rightSigns.push_back("<=");
-    rightSigns.push_back("/");
-    rightSigns.push_back("!");
-    rightSigns.push_back("&&");
-    rightSigns.push_back("||");
-    rightSigns.push_back("!=");
-    rightSigns.push_back("&");
-    rightSigns.push_back("|");
+        // Массив верных знаков.
+        QVector<QString> rightSigns;
+        rightSigns.push_back("+");
+        rightSigns.push_back(",");
+        rightSigns.push_back(";");
+        rightSigns.push_back("-");
+        rightSigns.push_back("*");
+        rightSigns.push_back("{");
+        rightSigns.push_back("}");
+        rightSigns.push_back("(");
+        rightSigns.push_back(")");
+        rightSigns.push_back("=");
+        rightSigns.push_back(">");
+        rightSigns.push_back("<");
+        rightSigns.push_back("==");
+        rightSigns.push_back(">=");
+        rightSigns.push_back("<=");
+        rightSigns.push_back("/");
+        rightSigns.push_back("!");
+        rightSigns.push_back("&&");
+        rightSigns.push_back("||");
+        rightSigns.push_back("!=");
+        rightSigns.push_back("&");
+        rightSigns.push_back("|");
 
-    QString fileName = "main.txt";
-    LexicalAnaliz lexicalAnaliz(fileName);
-    if (lexicalAnaliz.isSetProgram()) {
-        qDebug() << "The file is opened!";
-    } else {
-        qDebug() << "The file is not opened!";
+        QString fileName = "main.txt";
+        LexicalAnaliz lexicalAnaliz(fileName);
+        if (lexicalAnaliz.isSetProgram()) {
+            qDebug() << "The file is opened!";
+        } else {
+            qDebug() << "The file is not opened!";
+        }
+        lexicalAnaliz.setRightSigns(rightSigns);
+        lexicalAnaliz.setServiceWords(serviceWords);
+
+        if (!lexicalAnaliz.run()) {
+            qDebug() << "Lexical analiz stoped!";
+            return 0;
+        }
+
+        lexicalAnaliz.showConstsTable();
+        lexicalAnaliz.showIdentifiers();
+        lexicalAnaliz.showConvolution();
+
+        SyntacticalAnalysis syntacticalAnalysis;
+        syntacticalAnalysis.setConstsTable(lexicalAnaliz.constsTable());
+        syntacticalAnalysis.setConvolution(lexicalAnaliz.convolution());
+        syntacticalAnalysis.setIdentifiers(lexicalAnaliz.identifiers());
+        syntacticalAnalysis.setRightSigns(rightSigns);
+        syntacticalAnalysis.setServiceWords(serviceWords);
+
+        Grammar grammar = makeGrammar();
+        syntacticalAnalysis.setGrammar(grammar);
+
+
     }
-    lexicalAnaliz.setRightSigns(rightSigns);
-    lexicalAnaliz.setServiceWords(serviceWords);
-
-    if (!lexicalAnaliz.run()) {
-        qDebug() << "Lexical analiz stoped!";
-        return 0;
+    catch (ErrorParser e) {
+        qDebug() << e.getError();
     }
-
-    lexicalAnaliz.showConstsTable();
-    lexicalAnaliz.showIdentifiers();
-    lexicalAnaliz.showConvolution();
-
-    SyntacticalAnalysis syntacticalAnalysis;
-    syntacticalAnalysis.setConstsTable(lexicalAnaliz.constsTable());
-    syntacticalAnalysis.setConvolution(lexicalAnaliz.convolution());
-    syntacticalAnalysis.setIdentifiers(lexicalAnaliz.identifiers());
-    syntacticalAnalysis.setRightSigns(rightSigns);
-    syntacticalAnalysis.setServiceWords(serviceWords);
-
-    Grammar grammar = makeGrammar();
-    syntacticalAnalysis.setGrammar(grammar);
-
 
     return a.exec();
 }

@@ -210,7 +210,9 @@ void SyntacticalAnalysis::step6a()
 
 void SyntacticalAnalysis::step6b()
 {
-
+    ErrorParser e("Вывод невозможен!");
+    clear();
+    throw e;
 }
 
 void SyntacticalAnalysis::step6v()
