@@ -132,7 +132,13 @@ void SyntacticalAnalysis::step1()
 
 void SyntacticalAnalysis::step2()
 {
-
+    ElementL2 elementL2 = L2_.top();
+    L2_.pop();
+    ElementL1 elementL1;
+    elementL1.sym =         elementL2.sym;
+    elementL1.isTerminal =  true;
+    L1_.push(elementL1);
+    current_++;
 }
 
 void SyntacticalAnalysis::step3()
