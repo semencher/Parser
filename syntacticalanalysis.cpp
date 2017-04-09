@@ -106,7 +106,48 @@ void SyntacticalAnalysis::run()
 {
     while(true) {
         if (state_ == NORMAL_WORK) {
-
+            if (L2_.top().isTerminal) {
+                bool same = false;
+                if (convolution_[current_].typeLexem == Identifier && L2_.top().sym == "I") {
+                    same = true;
+                }
+                if (convolution_[current_].typeLexem == IntegerConst && L2_.top().sym == "C"){
+                    same = true;
+                }
+                if (convolution_[current_].typeLexem == RightSignL &&
+                        rightSigns_[convolution_[current_].address] == L2_.top().sym) {
+                    same = true;
+                }
+                if (convolution_[current_].typeLexem == ServiceWord &&
+                        serviceWords_[convolution_[current_].address] == L2_.top().sym) {
+                    same = true;
+                }
+                if (!same) {
+                    step4();
+                    continue;
+                } else {
+                    step2();
+                    if (current_ == convolution_.size()) {
+                        if (L2_.empty()) {
+                            step3();
+                            continue;
+                        } else {
+                            step3Else();
+                            continue;
+                        }
+                    } else {
+                        if (L2_.empty()) {
+                            step3Else();
+                            continue;
+                        } else {
+                            continue;
+                        }
+                    }
+                }
+            } else {
+                step1();
+                continue;
+            }
         }
         if (state_ == RETURN_STATE) {
             if (L1_.top().isTerminal) {
