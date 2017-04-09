@@ -34,6 +34,23 @@ public:
     void setConstsTable(const QVector<QString> & constsTable);
     void setGrammar(const Grammar & grammar);
 
+    /**
+     * @brief run выполняет синтаксический анализ.
+     */
+    void run();
+
+private:
+    void step1();
+    void step2();
+    void step3();
+    void step3Else();
+    void step4();
+    void step5();
+    void step6();
+    void step6a();
+    void step6b();
+    void step6v();
+
 private:
     std::stack<ElementL1> L1_;
     std::stack<ElementL2> L2_;

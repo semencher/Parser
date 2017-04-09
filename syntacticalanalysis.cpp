@@ -101,3 +101,78 @@ void SyntacticalAnalysis::setGrammar(const Grammar & grammar)
 {
     grammar_ = grammar;
 }
+
+void SyntacticalAnalysis::run()
+{
+
+}
+
+void SyntacticalAnalysis::step1()
+{
+    ElementL2 elementL2 = L2_.top();
+    L2_.pop();
+    ElementL1 elementL1;
+    elementL1.sym =         elementL2.sym;
+    elementL1.isTerminal =  false;
+    elementL1.countAlt =    grammar_.infAlt[elementL1.sym].first;
+    elementL1.currentAlt =  0;
+    L1_.push(elementL1);
+    QVector<QString> alt = grammar_.rPart[grammar.infAlt[elementL1.sym].second];
+    size_t size = alt.size();
+    for (size_t i = size - 1; i >= 0; --i) {
+        elementL2.sym = alt[i];
+        if (grammar_.infAlt.contains(elementL2.sym)) {
+            elementL2.isTerminal = false;
+        } else {
+            elementL2.isTerminal = true;
+        }
+        L2_.push(elementL2);
+    }
+}
+
+void SyntacticalAnalysis::step2()
+{
+
+}
+
+void SyntacticalAnalysis::step3()
+{
+
+}
+
+
+void SyntacticalAnalysis::step3Else()
+{
+
+}
+
+
+void SyntacticalAnalysis::step4()
+{
+
+}
+
+void SyntacticalAnalysis::step5()
+{
+
+}
+
+void SyntacticalAnalysis::step6()
+{
+
+}
+
+void SyntacticalAnalysis::step6a()
+{
+
+}
+
+void SyntacticalAnalysis::step6b()
+{
+
+}
+
+void SyntacticalAnalysis::step6v()
+{
+
+}
