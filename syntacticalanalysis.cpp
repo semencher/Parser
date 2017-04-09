@@ -162,18 +162,23 @@ void SyntacticalAnalysis::step3()
 
 void SyntacticalAnalysis::step3Else()
 {
-
+    state_ = RETURN_STATE;
 }
-
 
 void SyntacticalAnalysis::step4()
 {
-
+    state_ = RETURN_STATE;
 }
 
 void SyntacticalAnalysis::step5()
 {
-
+    current_--;
+    ElementL1 elementL1 = L1_.top();
+    L1_.pop();
+    ElementL2 elementL2;
+    elementL2.sym =         elementL1.sym;
+    elementL2.isTerminal =  true;
+    L2_.push(elementL2);
 }
 
 void SyntacticalAnalysis::step6()
