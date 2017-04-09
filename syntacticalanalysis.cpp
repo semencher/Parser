@@ -104,7 +104,34 @@ void SyntacticalAnalysis::setGrammar(const Grammar & grammar)
 
 void SyntacticalAnalysis::run()
 {
+    while(true) {
+        if (state_ == NORMAL_WORK) {
 
+        }
+        if (state_ == RETURN_STATE) {
+            if (L1_.top().isTerminal) {
+                step5();
+                continue;
+            } else {
+                ElementL1 elementL1;
+                if (elementL1.countAlt > elementL1.currentAlt + 1) {
+                    step6a();
+                    continue;
+                } else {
+                    if (L1_.top().sym == "S" && current_ == 0) {
+                        step6b();
+                    } else {
+                        step6v();
+                        continue;
+                    }
+                }
+            }
+        }
+        if (state_ == DONE) {
+            step3();
+            break;
+        }
+    }
 }
 
 void SyntacticalAnalysis::step1()
@@ -117,9 +144,9 @@ void SyntacticalAnalysis::step1()
     elementL1.countAlt =    grammar_.infAlt[elementL1.sym].first;
     elementL1.currentAlt =  0;
     L1_.push(elementL1);
-    QVector<QString> alt = grammar_.rPart[grammar.infAlt[elementL1.sym].second];
+    QVector<QString> alt = grammar_.rPart[grammar_.infAlt[elementL1.sym].second];
     size_t size = alt.size();
-    for (size_t i = size - 1; i >= 0; --i) {
+    for (int i = size - 1; i >= 0; --i) {
         elementL2.sym = alt[i];
         if (grammar_.infAlt.contains(elementL2.sym)) {
             elementL2.isTerminal = false;
@@ -187,17 +214,18 @@ void SyntacticalAnalysis::step6a()
     ElementL1 elementL1 = L1_.top();
     L1_.pop();
     size_t sizeOfAlt = grammar_.rPart[grammar_.infAlt[elementL1.sym].second +
-            elementL1.currentAlt];
+            elementL1.currentAlt].size();
     for (size_t i = 0; i < sizeOfAlt; ++i) {
         L2_.pop();
     }
     elementL1.currentAlt++;
     L1_.push(elementL1);
 
-    QVector<QString> alt = grammar_.rPart[grammar.infAlt[elementL1.sym].second +
+    QVector<QString> alt = grammar_.rPart[grammar_.infAlt[elementL1.sym].second +
             elementL1.currentAlt];
     size_t size = alt.size();
-    for (size_t i = size - 1; i >= 0; --i) {
+    for (int i = size - 1; i >= 0; --i) {
+        ElementL2 elementL2;
         elementL2.sym = alt[i];
         if (grammar_.infAlt.contains(elementL2.sym)) {
             elementL2.isTerminal = false;
@@ -217,5 +245,15 @@ void SyntacticalAnalysis::step6b()
 
 void SyntacticalAnalysis::step6v()
 {
-
+    ElementL1 elementL1 = L1_.top();
+    L1_.pop();
+    size_t sizeOfAlt = grammar_.rPart[grammar_.infAlt[elementL1.sym].second +
+            elementL1.currentAlt].size();
+    for (size_t i = 0; i < sizeOfAlt; ++i) {
+        L2_.pop();
+    }
+    ElementL2 elementL2;
+    elementL2.sym =         elementL1.sym;
+    elementL2.isTerminal =  false;
+    L2_.push(elementL2);
 }

@@ -249,7 +249,13 @@ int main(int argc, char *argv[])
 
         Grammar grammar = makeGrammar();
         syntacticalAnalysis.setGrammar(grammar);
+        std::stack<int> stack = syntacticalAnalysis.conclusion();
 
+        qDebug() << "Левый вывод: ";
+        while(!stack.empty()) {
+            qDebug() << stack.top();
+            stack.pop();
+        }
 
     }
     catch (ErrorParser e) {
