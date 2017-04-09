@@ -36,6 +36,7 @@ struct Descriptor
 };
 
 struct Grammar {
+    // QPair: 1 - сколько всего альтернатив, 2 - индекс первой в массиве.
     QMap<QString, QPair<int, int>> infAlt;
     QVector<QString> lPart;
     QVector<QVector<QString>> rPart;
