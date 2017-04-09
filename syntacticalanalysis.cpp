@@ -160,7 +160,6 @@ void SyntacticalAnalysis::step3()
     }
 }
 
-
 void SyntacticalAnalysis::step3Else()
 {
 
