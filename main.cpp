@@ -43,10 +43,10 @@ Grammar makeGrammar()
     grammar.rPart.push_back(QVector<QString>{"while", "(", "U", ")", "D"});
 
     grammar.lPart.push_back("D");
-    grammar.rPart.push_back(QVector<QString>{"K"});
+    grammar.rPart.push_back(QVector<QString>{"K", ";"});
 
     grammar.lPart.push_back("D");
-    grammar.rPart.push_back(QVector<QString>{"I", "=", "K"});
+    grammar.rPart.push_back(QVector<QString>{"I", "=", "K", ";"});
 
     grammar.lPart.push_back("K");
     grammar.rPart.push_back(QVector<QString>{"-", "K"});
@@ -249,9 +249,10 @@ int main(int argc, char *argv[])
 
         Grammar grammar = makeGrammar();
         syntacticalAnalysis.setGrammar(grammar);
+        syntacticalAnalysis.run();
         std::stack<int> stack = syntacticalAnalysis.conclusion();
 
-        qDebug() << "Левый вывод: ";
+        qDebug() << "Left output: ";
         while(!stack.empty()) {
             qDebug() << stack.top();
             stack.pop();

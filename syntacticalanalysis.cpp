@@ -106,20 +106,21 @@ void SyntacticalAnalysis::run()
 {
     while(true) {
         if (state_ == NORMAL_WORK) {
-            if (L2_.top().isTerminal) {
+            ElementL2 elementL2 = L2_.top();
+            if (elementL2.isTerminal) {
                 bool same = false;
-                if (convolution_[current_].typeLexem == Identifier && L2_.top().sym == "I") {
+                if (convolution_[current_].typeLexem == Identifier && elementL2.sym == "I") {
                     same = true;
                 }
-                if (convolution_[current_].typeLexem == IntegerConst && L2_.top().sym == "C"){
+                if (convolution_[current_].typeLexem == IntegerConst && elementL2.sym == "C"){
                     same = true;
                 }
                 if (convolution_[current_].typeLexem == RightSignL &&
-                        rightSigns_[convolution_[current_].address] == L2_.top().sym) {
+                        rightSigns_[convolution_[current_].address] == elementL2.sym) {
                     same = true;
                 }
                 if (convolution_[current_].typeLexem == ServiceWord &&
-                        serviceWords_[convolution_[current_].address] == L2_.top().sym) {
+                        serviceWords_[convolution_[current_].address] == elementL2.sym) {
                     same = true;
                 }
                 if (!same) {
@@ -130,7 +131,7 @@ void SyntacticalAnalysis::run()
                     if (current_ == convolution_.size()) {
                         if (L2_.empty()) {
                             step3();
-                            continue;
+                            break;
                         } else {
                             step3Else();
                             continue;
@@ -150,16 +151,16 @@ void SyntacticalAnalysis::run()
             }
         }
         if (state_ == RETURN_STATE) {
-            if (L1_.top().isTerminal) {
+            ElementL1 elementL1 = L1_.top();
+            if (elementL1.isTerminal) {
                 step5();
                 continue;
             } else {
-                ElementL1 elementL1;
                 if (elementL1.countAlt > elementL1.currentAlt + 1) {
                     step6a();
                     continue;
                 } else {
-                    if (L1_.top().sym == "S" && current_ == 0) {
+                    if (elementL1.sym == "S" && current_ == 0) {
                         step6b();
                     } else {
                         step6v();
@@ -279,7 +280,7 @@ void SyntacticalAnalysis::step6a()
 
 void SyntacticalAnalysis::step6b()
 {
-    ErrorParser e("Вывод невозможен!");
+    ErrorParser e("Left output is impossible!");
     clear();
     throw e;
 }
