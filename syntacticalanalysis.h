@@ -46,7 +46,6 @@ private:
     void step3Else();
     void step4();
     void step5();
-    void step6();
     void step6a();
     void step6b();
     void step6v();

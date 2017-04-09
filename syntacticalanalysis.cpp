@@ -181,14 +181,31 @@ void SyntacticalAnalysis::step5()
     L2_.push(elementL2);
 }
 
-void SyntacticalAnalysis::step6()
-{
-
-}
-
 void SyntacticalAnalysis::step6a()
 {
+    state_ = NORMAL_WORK;
+    ElementL1 elementL1 = L1_.top();
+    L1_.pop();
+    size_t sizeOfAlt = grammar_.rPart[grammar_.infAlt[elementL1.sym].second +
+            elementL1.currentAlt];
+    for (size_t i = 0; i < sizeOfAlt; ++i) {
+        L2_.pop();
+    }
+    elementL1.currentAlt++;
+    L1_.push(elementL1);
 
+    QVector<QString> alt = grammar_.rPart[grammar.infAlt[elementL1.sym].second +
+            elementL1.currentAlt];
+    size_t size = alt.size();
+    for (size_t i = size - 1; i >= 0; --i) {
+        elementL2.sym = alt[i];
+        if (grammar_.infAlt.contains(elementL2.sym)) {
+            elementL2.isTerminal = false;
+        } else {
+            elementL2.isTerminal = true;
+        }
+        L2_.push(elementL2);
+    }
 }
 
 void SyntacticalAnalysis::step6b()
