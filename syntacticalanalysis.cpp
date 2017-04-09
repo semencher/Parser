@@ -143,7 +143,21 @@ void SyntacticalAnalysis::step2()
 
 void SyntacticalAnalysis::step3()
 {
-
+    state_ = DONE;
+    std::stack<ElementL1> tmp;
+    while(!L1_.empty()) {
+        ElementL1 elementL1 = L1_.top();
+        tmp.push(elementL1);
+        L1_.pop();
+        if(!elementL1.isTerminal) {
+            conclusion_.push(elementL1.currentAlt +
+                             grammar_.infAlt[elementL1.sym].second);
+        }
+    }
+    while(!tmp.empty()) {
+        L1_.push(tmp.top());
+        tmp.pop();
+    }
 }
 
 
