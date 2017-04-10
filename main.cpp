@@ -19,22 +19,22 @@ Grammar makeGrammar()
     grammar.rPart.push_back(QVector<QString>{"D", "B"});
 
     grammar.lPart.push_back("D");
-    grammar.rPart.push_back(QVector<QString>{"if", "A"});
+    grammar.rPart.push_back(QVector<QString>{"if", "(", "U", ")", "A"});
 
     grammar.lPart.push_back("D");
-    grammar.rPart.push_back(QVector<QString>{"if", "A", "else", "A"});
+    grammar.rPart.push_back(QVector<QString>{"if", "(", "U", ")", "A", "else", "A"});
 
     grammar.lPart.push_back("D");
-    grammar.rPart.push_back(QVector<QString>{"if", "D"});
+    grammar.rPart.push_back(QVector<QString>{"if", "(", "U", ")", "D"});
 
     grammar.lPart.push_back("D");
-    grammar.rPart.push_back(QVector<QString>{"if", "A", "else", "D"});
+    grammar.rPart.push_back(QVector<QString>{"if", "(", "U", ")", "A", "else", "D"});
 
     grammar.lPart.push_back("D");
-    grammar.rPart.push_back(QVector<QString>{"if", "D", "else", "A"});
+    grammar.rPart.push_back(QVector<QString>{"if", "(", "U", ")", "D", "else", "A"});
 
     grammar.lPart.push_back("D");
-    grammar.rPart.push_back(QVector<QString>{"if", "D", "else", "D"});
+    grammar.rPart.push_back(QVector<QString>{"if", "(", "U", ")", "D", "else", "D"});
 
     grammar.lPart.push_back("D");
     grammar.rPart.push_back(QVector<QString>{"while", "(", "U", ")", "A"});
