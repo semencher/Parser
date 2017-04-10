@@ -11,9 +11,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     scaner.cpp \
-    lexicalanaliz.cpp
+    lexicalanaliz.cpp \
+    syntacticalanalysis.cpp
 
 HEADERS += \
     scaner.h \
     global.h \
-    lexicalanaliz.h
+    lexicalanaliz.h \
+    syntacticalanalysis.h
